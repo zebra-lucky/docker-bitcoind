@@ -27,7 +27,7 @@ RUN chmod a+x /usr/local/bin/*
 # denied issues when executing /bin/bash from trusted builds.  Building locally
 # works fine (strange).  Using the upstream docker (0.11.1) pkg from
 # http://get.docker.io/ubuntu works fine also and seems simpler.
-USER dash
+USER bitcoin
 
 VOLUME ["/bitcoin"]
 
