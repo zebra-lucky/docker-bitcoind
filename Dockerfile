@@ -14,7 +14,7 @@ RUN useradd -u ${USER_ID} -g bitcoin -s /bin/bash -m -d /bitcoin bitcoin
 
 RUN chown bitcoin:bitcoin -R /bitcoin
 
-ADD https://bitcoin.org/bin/bitcoin-core-0.17.1/bitcoin-0.17.1-x86_64-linux-gnu.tar.gz /tmp/
+ADD https://bitcoin.org/bin/bitcoin-core-0.18.0/bitcoin-0.18.0-x86_64-linux-gnu.tar.gz /tmp/
 RUN tar -xzvf /tmp/bitcoin-*-x86_64-linux-gnu.tar.gz -C /tmp/ \
     && cp /tmp/bitcoin-*/bin/*  /usr/local/bin \
     && cp /tmp/bitcoin-*/lib/*  /usr/local/lib \
