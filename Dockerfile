@@ -5,6 +5,9 @@ ARG USER_ID
 ARG GROUP_ID
 
 ENV HOME /bitcoin
+ENV VERSION 0.19.0.1
+ENV DOWNLOAD_URL https://bitcoin.org/bin/bitcoin-core-${VERSION}
+ENV FILE_NAME bitcoin-${VERSION}-x86_64-linux-gnu.tar.gz
 
 # add user with specified (or default) user/group ids
 ENV USER_ID ${USER_ID:-1000}
@@ -14,7 +17,7 @@ RUN useradd -u ${USER_ID} -g bitcoin -s /bin/bash -m -d /bitcoin bitcoin
 
 RUN chown bitcoin:bitcoin -R /bitcoin
 
-ADD https://bitcoin.org/bin/bitcoin-core-0.18.0/bitcoin-0.18.0-x86_64-linux-gnu.tar.gz /tmp/
+ADD ${DOWNLOAD_URL}/${FILE_NAME} /tmp/
 RUN tar -xzvf /tmp/bitcoin-*-x86_64-linux-gnu.tar.gz -C /tmp/ \
     && cp /tmp/bitcoin-*/bin/*  /usr/local/bin \
     && cp /tmp/bitcoin-*/lib/*  /usr/local/lib \
