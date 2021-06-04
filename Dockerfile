@@ -1,13 +1,10 @@
-FROM ubuntu:xenial
-MAINTAINER Kyle Manna <kyle@kylemanna.com>
+FROM ubuntu:bionic
+MAINTAINER <zebra.lucky@gmail.com>
 
 ARG USER_ID
 ARG GROUP_ID
 
 ENV HOME /bitcoin
-ENV VERSION 0.19.0.1
-ENV DOWNLOAD_URL https://bitcoin.org/bin/bitcoin-core-${VERSION}
-ENV FILE_NAME bitcoin-${VERSION}-x86_64-linux-gnu.tar.gz
 
 # add user with specified (or default) user/group ids
 ENV USER_ID ${USER_ID:-1000}
@@ -16,12 +13,20 @@ RUN groupadd -g ${GROUP_ID} bitcoin
 RUN useradd -u ${USER_ID} -g bitcoin -s /bin/bash -m -d /bitcoin bitcoin
 
 RUN chown bitcoin:bitcoin -R /bitcoin
-
-ADD ${DOWNLOAD_URL}/${FILE_NAME} /tmp/
-RUN tar -xzvf /tmp/bitcoin-*-x86_64-linux-gnu.tar.gz -C /tmp/ \
+RUN apt-get update && apt-get install -y wget vim less net-tools git python3 \
+    && version=0.21.1 \
+    && download_url=https://bitcoin.org/bin/ \
+    && version_path=bitcoin-core-${version}/ \
+    && tar_file=bitcoin-${version}-x86_64-linux-gnu.tar.gz \
+    && sum=366eb44a7a0aa5bd342deea215ec19a184a11f2ca22220304ebb20b9c8917e2b \
+    && rm -rf /var/lib/apt/lists/* \
+    && cd /tmp/ \
+    && wget ${download_url}${version_path}${tar_file} \
+    && echo $sum $tar_file | sha256sum -c \
+    && tar -xzvf ${tar_file} \
     && cp /tmp/bitcoin-*/bin/*  /usr/local/bin \
     && cp /tmp/bitcoin-*/lib/*  /usr/local/lib \
-    && rm -rf /tmp/bitcoin-*-x86_64-linux-gnu.tar.gz
+    && rm -rf /tmp/bitcoin-*
 
 ADD ./bin /usr/local/bin
 RUN chmod a+x /usr/local/bin/*
