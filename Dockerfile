@@ -14,11 +14,11 @@ RUN useradd -u ${USER_ID} -g bitcoin -s /bin/bash -m -d /bitcoin bitcoin
 
 RUN chown bitcoin:bitcoin -R /bitcoin
 RUN apt-get update && apt-get install -y wget vim less net-tools git python3 \
-    && version=0.21.1 \
+    && version=22.0 \
     && download_url=https://bitcoin.org/bin/ \
     && version_path=bitcoin-core-${version}/ \
     && tar_file=bitcoin-${version}-x86_64-linux-gnu.tar.gz \
-    && sum=366eb44a7a0aa5bd342deea215ec19a184a11f2ca22220304ebb20b9c8917e2b \
+    && sum=59ebd25dd82a51638b7a6bb914586201e67db67b919b2a1ff08925a7936d1b16 \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp/ \
     && wget ${download_url}${version_path}${tar_file} \
